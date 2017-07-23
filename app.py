@@ -28,25 +28,19 @@ def show_user_profile(username):
     # show the user profile for that user
     return 'User %s' % username
 
-@app.route('/method', methods=['HEAD', 'GET'])
+@app.route('/info', methods=['GET'])
 def client_info():
-    #parent_dict = [{'A':'val1','B':'val2'}]
-    #headers=parse_request(request)
     print(request.headers)
-    return render_template('hello.html', ip=request.remote_addr, parent_dict=parse_request(request))
+    return render_template('info.html', ip=request.remote_addr, parent_dict=parse_http_request(request))
 
 
 
-def parse_request(req):
-    ##print(req.headers)
+def parse_http_request(req):
 
     headers = {}
 
     for header in req.headers:
-        #response += header[0] + " : " + header[1] +  "<br/>"
         headers[header[0]] = header[1]
-
-    print(headers)
     return headers
 
 
