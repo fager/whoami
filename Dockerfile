@@ -17,8 +17,13 @@ ENV FLASK_APP=app.py \
 # By default Flask use port 5000
 EXPOSE 5000
 
-# Install Flask via pip
-RUN pip install flask
+# Install Flask via pip,
+# Change ownership of app to www-data
+RUN pip install flask && \
+    chown -R www-data: /opt
+
+# "CMD" will be executed as www-data
+USER www-data
 
 # Run the app
 CMD ["flask", "run", "--host=0.0.0.0"]
