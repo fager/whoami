@@ -14,11 +14,14 @@ app.config['DEBUG'] = True
 
 @app.route("/")
 def main():
-    return render_template('index.html')
+    #return render_template('index.html')
+    return '/'
 
-@app.route("/hello")
-def hello():
-    return 'Hello !'
+@app.route('/hello/')
+#@app.route('/hello/<name>')
+def hello(name=None):
+    return render_template('hello.html', name=name)
+
 
 @app.route('/user/<username>')
 def show_user_profile(username):
@@ -26,21 +29,25 @@ def show_user_profile(username):
     return 'User %s' % username
 
 @app.route('/method', methods=['HEAD', 'GET'])
-def method():
-    if request.method == 'HEAD':
-        return 'HEAD'
-    else:
-        parse_request(request)
-        return 'GET'
-	
+def client_info():
+    #parent_dict = [{'A':'val1','B':'val2'}]
+    #headers=parse_request(request)
+    print(request.headers)
+    return render_template('hello.html', ip=request.remote_addr, parent_dict=parse_request(request))
+
 
 
 def parse_request(req):
-    #print(jsonify({'ip': request.remote_addr}))
-    print(req.remote_addr)
-    print(req.headers)
+    ##print(req.headers)
 
+    headers = {}
 
+    for header in req.headers:
+        #response += header[0] + " : " + header[1] +  "<br/>"
+        headers[header[0]] = header[1]
+
+    print(headers)
+    return headers
 
 
 if __name__ == "__main__":
