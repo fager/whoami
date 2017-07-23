@@ -14,7 +14,6 @@ app.config['DEBUG'] = True
 
 @app.route("/")
 def main():
-    #return render_template('index.html')
     return '/'
 
 @app.route('/hello/')
@@ -30,7 +29,6 @@ def show_user_profile(username):
 
 @app.route('/info', methods=['GET'])
 def client_info():
-    print(request.headers)
     return render_template('info.html', ip=request.remote_addr, parent_dict=parse_http_request(request))
 
 
