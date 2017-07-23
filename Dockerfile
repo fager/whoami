@@ -19,7 +19,7 @@ EXPOSE 5000
 
 # Install Flask via pip,
 # Change ownership of app to www-data
-RUN pip install flask && \
+RUN pip install -r requirements.txt && \
     chown -R www-data: /opt
 
 # "CMD" will be executed as www-data
