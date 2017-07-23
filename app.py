@@ -7,14 +7,21 @@
 from flask import Flask
 from flask import render_template
 from flask import request
+from dns import resolver        # DNS query of client IP
+from dns import reversename     # Reverse lookup if client IP
 
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
 
-@app.route("/")
+@app.route("/", methods=['GET'])
 def main():
-    return '/'
+    ip=request.remote_addr
+    return render_template('info.html', 
+        ip=ip, 
+        reverse=get_client_reverse_lookup(ip), 
+        parent_dict=parse_http_headers(request)
+    )
 
 @app.route('/hello/')
 #@app.route('/hello/<name>')
@@ -29,17 +36,21 @@ def show_user_profile(username):
 
 @app.route('/info', methods=['GET'])
 def client_info():
-    return render_template('info.html', ip=request.remote_addr, parent_dict=parse_http_request(request))
+    return render_template('info.html', ip=request.remote_addr, parent_dict=parse_http_headers(request))
 
 
 
-def parse_http_request(req):
+def parse_http_headers(req):
 
     headers = {}
 
     for header in req.headers:
         headers[header[0]] = header[1]
     return headers
+
+def get_client_reverse_lookup(ip):
+    addr = reversename.from_address(ip)
+    return resolver.query(addr, "PTR")[0]
 
 
 if __name__ == "__main__":
