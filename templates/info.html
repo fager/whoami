@@ -16,6 +16,14 @@
         <td>No IP </td>
     {% endif %}
   </tr>
+  <tr>
+    {% if reverse %}
+    <td>Reverse lookup</td>
+    <td> {{ reverse }} </td>
+    {% else %}
+        <td>No reverse lookup available </td>
+    {% endif %}
+  </tr>
   {% for key, value in parent_dict.items() %}
     <tr>
       <td>{{key}}</td²>
