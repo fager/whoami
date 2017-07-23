@@ -49,8 +49,11 @@ def parse_http_headers(req):
     return headers
 
 def get_client_reverse_lookup(ip):
-    addr = reversename.from_address(ip)
-    return resolver.query(addr, "PTR")[0]
+    try:
+        addr = reversename.from_address(ip)
+        return resolver.query(addr, "PTR")[0]
+    except:
+        return "No reverse lookup available"
 
 
 if __name__ == "__main__":
