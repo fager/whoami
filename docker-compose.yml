@@ -18,7 +18,7 @@ services:
     build:
       context: ./app/
       dockerfile: Dockerfile
-    container_name: back-app
+    container_name: app-back
     restart: always
     expose:
      - 5000
