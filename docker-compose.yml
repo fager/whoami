@@ -3,11 +3,12 @@ version: '2'
 services:
   front:
     build:
-      context: .
+      context: ./nginx/
       dockerfile: Dockerfile
     container_name: app-front
     depends_on:
-      - app-back
+      - back
+    restart: always
     ports:
      - "80:80"
     links:
@@ -15,8 +16,9 @@ services:
 
   back:
     build:
-      context: ./nginx/
+      context: ./app/
       dockerfile: Dockerfile
     container_name: back-app
+    restart: always
     expose:
      - 5000
