@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+  front:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app-front
+    depends_on:
+      - app-back
+    ports:
+     - "80:80"
+    links:
+     - back:back
+
+  back:
+    build:
+      context: ./nginx/
+      dockerfile: Dockerfile
+    container_name: back-app
+    expose:
+     - 5000
