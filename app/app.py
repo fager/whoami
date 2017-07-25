@@ -7,8 +7,12 @@
 from flask import Flask
 from flask import render_template
 from flask import request
+from flask import make_response
 from dns import resolver        # DNS query of client IP
 from dns import reversename     # Reverse lookup if client IP
+import dicttoxml                # Dictionnary to xml
+import json                     # Dictionnary to json
+
 
 
 app = Flask(__name__)
@@ -54,14 +58,26 @@ def reverse():
 # Return User-Agent
 @app.route('/ua/')
 def ua():
-    #parse_http_headers(request)
     return get_specific_header(parse_http_headers(request), "User-Agent")
 
 # Return User-Agent
 @app.route('/lang/')
 def lang():
-    #parse_http_headers(request)
     return get_specific_header(parse_http_headers(request), "Accept-Language")
+
+
+# Return visitor info in json or xml format
+@app.route('/raw/<type>/')
+def raw(type=None):
+    response = make_response(set_headers_format(type, request))
+
+    # Add "Content-Type = text/xml" to header response
+    if type == "xml":
+        response.headers['Content-Type'] = 'text/xml'
+        return response
+    if type == "json":
+        response.headers['Content-Type'] = 'application/json'
+        return response
 
 
 # Loop over HTTP headers and return a dictionnary filled by them
@@ -83,15 +99,23 @@ def get_client_reverse_lookup(ip):
 
 
 # Get chosen header from headers
-def get_specific_header(headers, ua):
+def get_specific_header(headers, hdr):
     
     # Loop through headers to find and return the needed header
     for h in headers:
-        if h == ua:
+        if h == hdr:
             return headers[h]
 
     # End of the loop. No needed header was detected
-    return "No " + ua + " header sended"
+    return "No " + hdr + " header sended"
+
+
+# Return headers in json or xml format
+def set_headers_format(format, req):
+    if format == "xml":
+        return dicttoxml.dicttoxml(req.headers).decode("utf-8")
+    if format == "json":
+        return json.dumps(parse_http_headers(req))
 
 
 if __name__ == "__main__":
