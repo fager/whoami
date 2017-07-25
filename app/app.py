@@ -57,6 +57,12 @@ def ua():
     #parse_http_headers(request)
     return get_specific_header(parse_http_headers(request), "User-Agent")
 
+# Return User-Agent
+@app.route('/lang/')
+def lang():
+    #parse_http_headers(request)
+    return get_specific_header(parse_http_headers(request), "Accept-Language")
+
 
 # Loop over HTTP headers and return a dictionnary filled by them
 def parse_http_headers(req):
