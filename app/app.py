@@ -55,7 +55,7 @@ def reverse():
 @app.route('/ua/')
 def ua():
     #parse_http_headers(request)
-    return get_specific_header(parse_http_headers(request))
+    return get_specific_header(parse_http_headers(request), "User-Agent")
 
 
 # Loop over HTTP headers and return a dictionnary filled by them
@@ -77,15 +77,15 @@ def get_client_reverse_lookup(ip):
 
 
 # Get chosen header from headers
-def get_specific_header(headers):
+def get_specific_header(headers, ua):
     
-    # Loop through headers to find and return the User-Agent
+    # Loop through headers to find and return the needed header
     for h in headers:
-        if h == "User-Agent":
+        if h == ua:
             return headers[h]
 
-    # End of the loop. No User-Agent was detected
-    return "No User-Agent header sended"
+    # End of the loop. No needed header was detected
+    return "No " + ua + " header sended"
 
 
 if __name__ == "__main__":
