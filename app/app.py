@@ -51,6 +51,12 @@ def reverse():
     reverse_lookup = str(get_client_reverse_lookup(request.remote_addr))
     return reverse_lookup
 
+# Return User-Agent
+@app.route('/ua/')
+def ua():
+    #parse_http_headers(request)
+    return get_specific_header(parse_http_headers(request))
+
 
 # Loop over HTTP headers and return a dictionnary filled by them
 def parse_http_headers(req):
@@ -68,6 +74,18 @@ def get_client_reverse_lookup(ip):
         return resolver.query(addr, "PTR")[0]
     except:
         return "No reverse lookup available"
+
+
+# Get chosen header from headers
+def get_specific_header(headers):
+    
+    # Loop through headers to find and return the User-Agent
+    for h in headers:
+        if h == "User-Agent":
+            return headers[h]
+
+    # End of the loop. No User-Agent was detected
+    return "No User-Agent header sended"
 
 
 if __name__ == "__main__":
