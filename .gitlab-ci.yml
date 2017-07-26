@@ -1,0 +1,14 @@
+image: docker:latest
+
+services:
+- docker:dind
+
+before_script:
+- docker info
+- ls -la
+
+build:
+  script:
+    - docker build -t app:latest app/
+    - docker rm -f app
+    - docker run -d --name app -p 5000:5000 app
