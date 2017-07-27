@@ -65,6 +65,13 @@ def ua():
 def lang():
     return get_specific_header(parse_http_headers(request), "Accept-Language")
 
+# Return remote port
+# If in a docker-compose container with a Nginx reverse proxy behind
+# with X-Real-Port set as $realip_remote_port
+@app.route('/port/')
+def port():
+    return get_specific_header(parse_http_headers(request), "X-Real-Port")
+
 
 # Return visitor info in json or xml format
 @app.route('/raw/<type>/')
