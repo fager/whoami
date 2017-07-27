@@ -21,7 +21,7 @@ app.config['DEBUG'] = True
 # Main page
 @app.route("/", methods=['GET'])
 def main():
-    ip=request.remote_addr
+    ip=get_ip(parse_http_headers(request), request.remote_addr)
     return render_template('info.html', 
         ip=ip, 
         reverse=get_client_reverse_lookup(ip), 
@@ -47,7 +47,8 @@ def client_info():
 # Return IP address of visitor
 @app.route('/ip/')
 def ip():
-    return request.remote_addr
+    return get_ip(parse_http_headers(request), request.remote_addr)
+
 
 # Return reverse DNS lookup of visitor IP
 @app.route('/reverse/')
@@ -66,7 +67,7 @@ def lang():
     return get_specific_header(parse_http_headers(request), "Accept-Language")
 
 # Return remote port
-# If in a docker-compose container with a Nginx reverse proxy behind
+# If in a docker-compose container with a Nginx reverse proxy in front
 # with X-Real-Port set as $realip_remote_port
 @app.route('/port/')
 def port():
@@ -116,6 +117,26 @@ def get_specific_header(headers, hdr):
     # End of the loop. No needed header was detected
     return "No " + hdr + " header sended"
 
+
+# Get the IP of client.
+# If behind a reverse proxy (ex. in a docker-compose container with Nginx in front)
+# with X-Real-IP or X-Forwarded-For set, return the remote IP.
+def get_ip(headers, rmtip):
+
+    ip = get_specific_header(headers, "X-Real-Ip")
+
+    # Look for 'X-Real-IP' header first
+    if ip != "No X-Real-Ip header sended":
+        print(get_specific_header(headers, "X-Real-Ip"))
+        return ip
+    
+    # Else look for 'X-Forwarded-For'
+    elif ip != "No X-Forwarded-For header sended":
+        return ip
+
+    # Else return request.remote_addr
+    else:
+        return rmtip
 
 # Return headers in json or xml format
 def set_headers_format(format, req):
