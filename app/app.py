@@ -21,11 +21,13 @@ app.config['DEBUG'] = True
 # Main page
 @app.route("/", methods=['GET'])
 def main():
-    ip=request.remote_addr
+    ip = get_ip(parse_http_headers(request), request.remote_addr)
+    port = request.environ.get('REMOTE_PORT')
     return render_template('info.html', 
-        ip=ip, 
-        reverse=get_client_reverse_lookup(ip), 
-        parent_dict=parse_http_headers(request)
+        ip = ip, 
+        port = port,
+        reverse = get_client_reverse_lookup(ip), 
+        parent_dict = parse_http_headers(request)
     )
 
 @app.route('/hello/')
@@ -33,7 +35,6 @@ def main():
 def hello(name=None):
     #return render_template('hello.html', name=name)
     return "Hello"
-
 
 @app.route('/user/<username>/')
 def show_user_profile(username):
@@ -47,7 +48,7 @@ def client_info():
 # Return IP address of visitor
 @app.route('/ip/')
 def ip():
-    return request.remote_addr
+    return get_ip(parse_http_headers(request), request.remote_addr)
 
 # Return reverse DNS lookup of visitor IP
 @app.route('/reverse/')
@@ -65,6 +66,10 @@ def ua():
 def lang():
     return get_specific_header(parse_http_headers(request), "Accept-Language")
 
+# Return remote port
+@app.route('/port/')
+def port():
+    return str(request.environ.get('REMOTE_PORT'))
 
 # Return visitor info in json or xml format
 @app.route('/raw/<type>/')
@@ -109,6 +114,23 @@ def get_specific_header(headers, hdr):
     # End of the loop. No needed header was detected
     return "No " + hdr + " header sended"
 
+
+# Get the IP of client.
+# If behind a reverse proxy (ex. in a docker-compose container with Nginx in front)
+# with X-Real-IP or X-Forwarded-For set, return the remote IP.
+def get_ip(headers, rmtip):
+    for i in headers:
+        # Look for 'X-Real-IP' header first
+        if i == "X-Real-Ip":
+            return headers[i]
+        # Else look for 'X-Forwarded-For'
+        elif i == "X-Forwarded-For":
+            return headers[i]
+
+
+    # Else return request.remote_addr
+    # if no 'X-Real-Ip' or 'X-Forwarded-For'
+    return rmtip
 
 # Return headers in json or xml format
 def set_headers_format(format, req):

@@ -9,12 +9,12 @@
 
 <table>
   <tr>
-    {% if ip %}
     <td>Your IP</td>
     <td> {{ ip }} </td>
-    {% else %}
-        <td>No IP </td>
-    {% endif %}
+  </tr>
+  <tr>
+    <td>Your port</td>
+    <td> {{ port }} </td>
   </tr>
   <tr>
     {% if reverse %}
@@ -26,7 +26,7 @@
   </tr>
   {% for key, value in parent_dict.items() %}
     <tr>
-      <td>{{key}}</td²>
+      <td>{{key}}</td>
       <td>{{value}}</td>
     </tr>
   {% endfor %}
