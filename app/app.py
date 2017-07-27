@@ -127,12 +127,18 @@ def get_specific_header(headers, hdr):
 # with X-Real-IP or X-Forwarded-For set, return the remote IP.
 def get_ip(headers, rmtip):
     for i in headers:
-        # Look for 'X-Real-IP' header first
-        if i == "X-Real-Ip":
-            return headers[i]
-        # Else look for 'X-Forwarded-For'
-        elif i == "X-Forwarded-For":
-            return headers[i]
+        print(i + " " + headers[i])
+        # Look for 'X-Forwarded-For'
+        if i == "X-Forwarded-For":
+            # If 'X-Forwarded-For' contains a ','
+            # since 'X-Forwarded-For' format is:
+            # X-Forwarded-For: client, proxy1, proxy2
+            # Must return the first value
+            if ',' in headers[i]:
+                return headers[i].split(', ')[0]
+            else:
+                return headers[i]
+             
 
 
     # Else return request.remote_addr
