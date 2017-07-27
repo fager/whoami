@@ -9,12 +9,12 @@
 
 <table>
   <tr>
-    {% if ip %}
     <td>Your IP</td>
     <td> {{ ip }} </td>
-    {% else %}
-        <td>No IP </td>
-    {% endif %}
+  </tr>
+  <tr>
+    <td>Your port</td>
+    <td> {{ port }} </td>
   </tr>
   <tr>
     {% if reverse %}
