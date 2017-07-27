@@ -23,11 +23,18 @@ app.config['DEBUG'] = True
 def main():
     ip = get_ip(parse_http_headers(request), request.remote_addr)
     port = request.environ.get('REMOTE_PORT')
+    headers = parse_http_headers(request)
+
+    # Remove every custom headers (X-Forwarded-For, X-Real-Ip, ...)
+    for i in list(headers):
+        if i.startswith('X-'):
+            headers.pop(i)
+
     return render_template('info.html', 
         ip = ip, 
         port = port,
-        reverse = get_client_reverse_lookup(ip), 
-        parent_dict = parse_http_headers(request)
+        reverse = get_client_reverse_lookup(ip),
+        parent_dict = headers
     )
 
 @app.route('/hello/')
