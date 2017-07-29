@@ -21,6 +21,10 @@
         <td><a href={{ url_for('reverse') }}>whoami.alexasr.tk/reverse/</td>
         <td>{{ reverse }}</td>
       </tr>
+      <tr>
+        <td><a href={{ url_for('iplocation') }}>whoami.alexasr.tk/iplocation/</td>
+        <td>{% include "iplocation.html" %}</td>
+      </tr>
         {% for key, value in parent_dict.items() %}
           {% if key == "User-Agent" %}
             <tr>

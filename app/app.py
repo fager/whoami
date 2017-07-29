@@ -12,6 +12,7 @@ from dns import resolver        # DNS query of client IP
 from dns import reversename     # Reverse lookup if client IP
 import dicttoxml                # Dictionnary to xml
 import json                     # Dictionnary to json
+import pygeoip                  # IP location infos
 
 
 
@@ -25,8 +26,15 @@ def main():
     ip = get_ip(parse_http_headers(request), request.remote_addr)
     port = request.environ.get('REMOTE_PORT')
     headers = parse_http_headers(request)
+    iplocation = get_full_ip_info(ip)
     json = set_headers_format("json", request)
     xml = set_headers_format("xml", request)
+    
+    # If get_full_ip_info() return a TypeNone
+    # Ex: with private IP
+    if iplocation is None:
+        iplocation = {'info' : 'No IP location info available (private IP ?)'}
+
 
     # Remove every custom headers (X-Forwarded-For, X-Real-Ip, ...)
     for i in list(headers):
@@ -37,6 +45,7 @@ def main():
         ip = ip, 
         port = port,
         reverse = get_client_reverse_lookup(ip), 
+        iplocation = iplocation,
         parent_dict = headers,
         json = json,
         xml = xml
@@ -46,6 +55,13 @@ def main():
 @app.route('/ip/')
 def ip():
     return get_ip(parse_http_headers(request), request.remote_addr)
+
+# Return IP location info of visitor
+@app.route('/iplocation/')
+def iplocation():
+    ip =  get_ip(parse_http_headers(request), request.remote_addr)
+    return render_template('iplocation.html',
+        iplocation = get_full_ip_info(ip))
 
 # Return reverse DNS lookup of visitor IP
 @app.route('/reverse/')
@@ -117,7 +133,6 @@ def get_specific_header(headers, hdr):
 # with X-Real-IP or X-Forwarded-For set, return the remote IP.
 def get_ip(headers, rmtip):
     for i in headers:
-        print(i + " " + headers[i])
         # Look for 'X-Forwarded-For'
         if i == "X-Forwarded-For":
             # If 'X-Forwarded-For' contains a ','
@@ -141,6 +156,20 @@ def set_headers_format(format, req):
         return dicttoxml.dicttoxml(req.headers).decode("utf-8")
     if format == "json":
         return json.dumps(parse_http_headers(req))
+
+
+# Return a dictionnary containing IP info from GeoIP database
+def get_full_ip_info(ip):
+
+    try:
+        # Load he DB
+        gi = pygeoip.GeoIP('app/db/GeoLiteCity.dat')
+        return gi.record_by_addr(ip)
+
+    except pygeoip.GeoIPError as e:
+        return "No IP location info available"
+
+
 
 
 if __name__ == "__main__":
