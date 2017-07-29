@@ -29,11 +29,12 @@ def main():
     iplocation = get_full_ip_info(ip)
     json = set_headers_format("json", request)
     xml = set_headers_format("xml", request)
-
+    
     # If get_full_ip_info() return a TypeNone
     # Ex: with private IP
     if iplocation is None:
         iplocation = {'info' : 'No IP location info available (private IP ?)'}
+
 
     # Remove every custom headers (X-Forwarded-For, X-Real-Ip, ...)
     for i in list(headers):
