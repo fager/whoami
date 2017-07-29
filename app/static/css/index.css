@@ -3,3 +3,8 @@
   font-size: 1.5em;
   /*text-align: center;*/
 }
+
+/* Disable truncated first column */
+.table td:first-child {
+  white-space: nowrap;
+}

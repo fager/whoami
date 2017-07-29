@@ -11,24 +11,29 @@
       </tr>
       <tr>
         <td>whoami.alexasr.tk/ip/</td>
-        <td> 127.0.0.1 </td>
+        <td>{{ ip }}</td>
       </tr>
       <tr>
         <td>whoami.alexasr.tk/port/</td>
-        <td> 59344 </td>
+        <td>{{ port }}</td>
       </tr>
       <tr>
         <td>whoami.alexasr.tk/reverse/</td>
-        <td> localhost.localdomain. </td>
+        <td>{{ reverse }}</td>
       </tr>
-      <tr>
-        <td>whoami.alexasr.tk/ua/</td>
-        <td>Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:54.0) Gecko/20100101 Firefox/54.0</td>
-      </tr>
-      <tr>
-        <td>whoami.alexasr.tk/lang/</td>
-        <td>en-US,en;q=0.5</td>
-      </tr>
+        {% for key, value in parent_dict.items() %}
+          {% if key == "User-Agent" %}
+            <tr>
+              <td>whoami.alexasr.tk/ua/</td>
+              <td>{{ value }}</td>
+            </tr>
+          {% elif key == "Accept-Language" %}
+            <tr>
+              <td>whoami.alexasr.tk/lang/</td>
+              <td>{{ value }}</td>
+            </tr>      
+          {% endif %}  
+        {% endfor %}
       <tr>
         <td class="text"><span>whoami.alexasr.tk/raw/json/</span></td>
         <td>{"Host": "whoami.alexasr.tk", "Connection": "close", "User-Agent": "curl/7.47.0", "X-Forwarded-For": "176.166.160.58, 10.0.0.6", "X-Forwarded-Ssl": "off", "X-Real-Ip": "10.0.0.6", "X-Forwarded-Port": "80", "Accept": "*/*", "X-Real-Port": "42155", "X-Forwarded-Proto": "http"}</td>
