@@ -19,8 +19,8 @@ app = Flask(__name__)
 app.config['DEBUG'] = True
 
 # Main page
-@app.route("/", methods=['GET'])
 @app.route("/index/", methods=['GET'])
+@app.route("/", methods=['GET'])
 def main():
     ip = get_ip(parse_http_headers(request), request.remote_addr)
     port = request.environ.get('REMOTE_PORT')
