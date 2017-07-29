@@ -19,22 +19,26 @@ app = Flask(__name__)
 app.config['DEBUG'] = True
 
 # Main page
+@app.route("/index/", methods=['GET'])
 @app.route("/", methods=['GET'])
 def main():
     ip = get_ip(parse_http_headers(request), request.remote_addr)
     port = request.environ.get('REMOTE_PORT')
     headers = parse_http_headers(request)
-
+    json = set_headers_format("json", request)
+    xml = set_headers_format("xml", request)
     # Remove every custom headers (X-Forwarded-For, X-Real-Ip, ...)
     for i in list(headers):
         if i.startswith('X-'):
             headers.pop(i)
 
-    return render_template('info.html', 
+    return render_template('index.html', 
         ip = ip, 
         port = port,
-        reverse = get_client_reverse_lookup(ip),
-        parent_dict = headers
+        reverse = get_client_reverse_lookup(ip), 
+        parent_dict = parse_http_headers(request),
+        json = json,
+        xml = xml
     )
 
 @app.route('/hello/')
@@ -50,7 +54,7 @@ def show_user_profile(username):
 
 @app.route('/info/', methods=['GET'])
 def client_info():
-    return render_template('info.html', ip=request.remote_addr, parent_dict=parse_http_headers(request))
+    return render_template('index.html', ip=request.remote_addr, parent_dict=parse_http_headers(request))
 
 # Return IP address of visitor
 @app.route('/ip/')
@@ -60,7 +64,7 @@ def ip():
 # Return reverse DNS lookup of visitor IP
 @app.route('/reverse/')
 def reverse():
-    reverse_lookup = str(get_client_reverse_lookup(request.remote_addr))
+    reverse_lookup = str(get_client_reverse_lookup(get_ip(parse_http_headers(request), request.remote_addr)))
     return reverse_lookup
 
 # Return User-Agent
