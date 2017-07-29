@@ -1,0 +1,17 @@
+<!doctype html>
+<html>
+  {% include "header.html" %}
+
+  <body>
+    <h1 class="text-center">Who am I ? <small><a href={{ url_for('main') }}>whoami.alexasr.tk</small></a></h1>
+
+    <div class="container">
+      <h2>Info from your browser</h2>
+      {% include "main.html" %}
+    </div>
+    <div class="container">
+    <h2>Site map</h2>    
+      {% include "second.html" %}
+  </div>
+  </body>
+</html>

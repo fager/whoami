@@ -19,31 +19,28 @@ app = Flask(__name__)
 app.config['DEBUG'] = True
 
 # Main page
+@app.route("/index/", methods=['GET'])
 @app.route("/", methods=['GET'])
 def main():
     ip = get_ip(parse_http_headers(request), request.remote_addr)
     port = request.environ.get('REMOTE_PORT')
-    return render_template('info.html', 
+    headers = parse_http_headers(request)
+    json = set_headers_format("json", request)
+    xml = set_headers_format("xml", request)
+
+    # Remove every custom headers (X-Forwarded-For, X-Real-Ip, ...)
+    for i in list(headers):
+        if i.startswith('X-'):
+            headers.pop(i)
+
+    return render_template('index.html', 
         ip = ip, 
         port = port,
         reverse = get_client_reverse_lookup(ip), 
-        parent_dict = parse_http_headers(request)
+        parent_dict = headers,
+        json = json,
+        xml = xml
     )
-
-@app.route('/hello/')
-#@app.route('/hello/<name>')
-def hello(name=None):
-    #return render_template('hello.html', name=name)
-    return "Hello"
-
-@app.route('/user/<username>/')
-def show_user_profile(username):
-    # show the user profile for that user
-    return 'User %s' % username
-
-@app.route('/info/', methods=['GET'])
-def client_info():
-    return render_template('info.html', ip=request.remote_addr, parent_dict=parse_http_headers(request))
 
 # Return IP address of visitor
 @app.route('/ip/')
@@ -120,12 +117,18 @@ def get_specific_header(headers, hdr):
 # with X-Real-IP or X-Forwarded-For set, return the remote IP.
 def get_ip(headers, rmtip):
     for i in headers:
-        # Look for 'X-Real-IP' header first
-        if i == "X-Real-Ip":
-            return headers[i]
-        # Else look for 'X-Forwarded-For'
-        elif i == "X-Forwarded-For":
-            return headers[i]
+        print(i + " " + headers[i])
+        # Look for 'X-Forwarded-For'
+        if i == "X-Forwarded-For":
+            # If 'X-Forwarded-For' contains a ','
+            # since 'X-Forwarded-For' format is:
+            # X-Forwarded-For: client, proxy1, proxy2
+            # Must return the first value
+            if ',' in headers[i]:
+                return headers[i].split(', ')[0]
+            else:
+                return headers[i]
+             
 
 
     # Else return request.remote_addr
