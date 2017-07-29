@@ -163,7 +163,7 @@ def get_full_ip_info(ip):
 
     try:
         # Load he DB
-        gi = pygeoip.GeoIP('app/db/GeoLiteCity.dat')
+        gi = pygeoip.GeoIP('db/GeoLiteCity.dat')
         return gi.record_by_addr(ip)
 
     except pygeoip.GeoIPError as e:
