@@ -8,3 +8,9 @@
 .table td:first-child {
   white-space: nowrap;
 }
+
+/* No special color for html links */
+td a {
+  text-decoration: none;
+  color: rgb(44, 62, 80);
+}
