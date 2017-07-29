@@ -30,6 +30,11 @@ def main():
     json = set_headers_format("json", request)
     xml = set_headers_format("xml", request)
 
+    # If get_full_ip_info() return a TypeNone
+    # Ex: with private IP
+    if iplocation is None:
+        iplocation = {'info' : 'No IP location info available (private IP ?)'}
+
     # Remove every custom headers (X-Forwarded-For, X-Real-Ip, ...)
     for i in list(headers):
         if i.startswith('X-'):
@@ -155,10 +160,13 @@ def set_headers_format(format, req):
 # Return a dictionnary containing IP info from GeoIP database
 def get_full_ip_info(ip):
 
-    # Load the DB
-    gi = pygeoip.GeoIP('app/db/GeoLiteCity.dat')
+    try:
+        # Load he DB
+        gi = pygeoip.GeoIP('app/db/GeoLiteCity.dat')
+        return gi.record_by_addr(ip)
 
-    return gi.record_by_addr("62.210.71.176")
+    except pygeoip.GeoIPError as e:
+        return "No IP location info available"
 
 
 

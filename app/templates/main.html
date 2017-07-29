@@ -17,6 +17,78 @@
                 <td>No reverse lookup available</td>
               {% endif %}
             </tr>
+            {% for key, value in iplocation.items() %}
+              {% if key == "info" %}
+                <tr>
+                  <td>IP location info</td>
+                      <td>{{ value }}</td>
+                  </tr>
+              {% elif key == "country_name" %}
+                <tr>
+                  <td>Country Name</td>
+                  {% if value == "None" %}
+                      <td>Not found</td>
+                  {% else %}
+                      <td>{{ value }}</td>
+                  {% endif %}
+                  </tr>
+              {% elif key == "country_code" %}
+                <tr>
+                  <td>Country Code</td>
+                  {% if value == "None" %}
+                      <td>Not found</td>
+                  {% else %}
+                      <td>{{ value }}</td>
+                  {% endif %}
+                  </tr>
+              {% elif key == "continent" %}
+                <tr>
+                  <td>Continent Code</td>
+                  {% if value == "None" %}
+                    <td>Not found</td>
+                  {% else %}
+                    <td>{{ value }}</td>
+                  {% endif %}
+                </tr>
+              {% elif key == "postal_code" %}
+                <tr>
+                  <td>Postal Code</td>
+                  {% if value != "None" %}
+                    <td>Not found</td>
+                  {% else %}
+                    <td>{{ value }}</td>
+                  {% endif %}
+                </tr>
+              {% elif key == "latitude" %}
+                <tr>
+                  <td>Latitude</td>
+                  {% if value == "None" %}
+                    <td>Not found</td>
+                  {% else %}
+                    <td>{{ value }}</td>
+                  {% endif %}
+                </tr>
+              {% elif key == "longitude" %}
+                <tr>
+                  <td>Longitude</td>
+                  {% if value == "None" %}
+                    <td>Not found</td>
+                  {% else %}
+                    <td>{{ value }}</td>
+                  {% endif %}
+                </tr>
+              {% elif key == "city" %}
+                <tr>
+                  <td>City</td>
+                  {% if value != "None" %}
+                    <td>Not found</td>
+                  {% else %}
+                    <td>{{ value }}</td>
+                  {% endif %}
+                </tr>
+              {% endif %}
+            {% endfor %}
+            
             <tr class="separator text-center">
               <td>Header</td>
               <td>Value</td>
