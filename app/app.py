@@ -27,6 +27,7 @@ def main():
     headers = parse_http_headers(request)
     json = set_headers_format("json", request)
     xml = set_headers_format("xml", request)
+
     # Remove every custom headers (X-Forwarded-For, X-Real-Ip, ...)
     for i in list(headers):
         if i.startswith('X-'):
@@ -36,7 +37,7 @@ def main():
         ip = ip, 
         port = port,
         reverse = get_client_reverse_lookup(ip), 
-        parent_dict = parse_http_headers(request),
+        parent_dict = headers,
         json = json,
         xml = xml
     )
