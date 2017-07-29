@@ -26,6 +26,7 @@ def main():
     ip = get_ip(parse_http_headers(request), request.remote_addr)
     port = request.environ.get('REMOTE_PORT')
     headers = parse_http_headers(request)
+    iplocation = get_full_ip_info(ip)
     json = set_headers_format("json", request)
     xml = set_headers_format("xml", request)
 
@@ -38,6 +39,7 @@ def main():
         ip = ip, 
         port = port,
         reverse = get_client_reverse_lookup(ip), 
+        iplocation = iplocation,
         parent_dict = headers,
         json = json,
         xml = xml
