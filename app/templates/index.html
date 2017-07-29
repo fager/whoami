@@ -2,7 +2,8 @@
 <head>
   <title>Whoami ?</title>
   <link href="{{ url_for('static', filename='css/index.css') }}" rel="stylesheet" type="text/css" />
-  <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+  <!--<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />-->
+  <link href="{{ url_for('static', filename='css/flatty.min.css') }}" rel="stylesheet" type="text/css" />
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,10 +18,10 @@
 </head>
 
 <body>
-  <h1>Who am I ? - whoami.alexasr.tk</h1>
+  <h1 class="text-center">Who am I ? <small>whoami.alexasr.tk</small></h1>
 
   <div class="container">
-    <h2 class="text-center">Info from your browser</h2>
+    <h2>Info from your browser</h2>
     <div class="table-responsive">
       <table class="table table-hover table-striped table-bordered">
         <tbody>
