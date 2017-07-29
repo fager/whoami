@@ -53,7 +53,7 @@ def ip():
 # Return reverse DNS lookup of visitor IP
 @app.route('/reverse/')
 def reverse():
-    reverse_lookup = str(get_client_reverse_lookup(request.remote_addr))
+    reverse_lookup = str(get_client_reverse_lookup(get_ip(parse_http_headers(request), request.remote_addr)))
     return reverse_lookup
 
 # Return User-Agent
