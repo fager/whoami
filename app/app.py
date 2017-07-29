@@ -20,10 +20,11 @@ app.config['DEBUG'] = True
 
 # Main page
 @app.route("/", methods=['GET'])
+@app.route("/index/", methods=['GET'])
 def main():
     ip = get_ip(parse_http_headers(request), request.remote_addr)
     port = request.environ.get('REMOTE_PORT')
-    return render_template('info.html', 
+    return render_template('index.html', 
         ip = ip, 
         port = port,
         reverse = get_client_reverse_lookup(ip), 
@@ -43,7 +44,7 @@ def show_user_profile(username):
 
 @app.route('/info/', methods=['GET'])
 def client_info():
-    return render_template('info.html', ip=request.remote_addr, parent_dict=parse_http_headers(request))
+    return render_template('index.html', ip=request.remote_addr, parent_dict=parse_http_headers(request))
 
 # Return IP address of visitor
 @app.route('/ip/')
