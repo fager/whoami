@@ -42,21 +42,6 @@ def main():
         xml = xml
     )
 
-@app.route('/hello/')
-#@app.route('/hello/<name>')
-def hello(name=None):
-    #return render_template('hello.html', name=name)
-    return "Hello"
-
-@app.route('/user/<username>/')
-def show_user_profile(username):
-    # show the user profile for that user
-    return 'User %s' % username
-
-@app.route('/info/', methods=['GET'])
-def client_info():
-    return render_template('index.html', ip=request.remote_addr, parent_dict=parse_http_headers(request))
-
 # Return IP address of visitor
 @app.route('/ip/')
 def ip():
