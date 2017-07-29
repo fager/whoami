@@ -35,12 +35,12 @@
           {% endif %}  
         {% endfor %}
       <tr>
-        <td class="text"><span>whoami.alexasr.tk/raw/json/</span></td>
-        <td>{"Host": "whoami.alexasr.tk", "Connection": "close", "User-Agent": "curl/7.47.0", "X-Forwarded-For": "176.166.160.58, 10.0.0.6", "X-Forwarded-Ssl": "off", "X-Real-Ip": "10.0.0.6", "X-Forwarded-Port": "80", "Accept": "*/*", "X-Real-Port": "42155", "X-Forwarded-Proto": "http"}</td>
+        <td>whoami.alexasr.tk/raw/json/</td>
+        <td>{{ json }}</td>
       </tr>
       <tr>
         <td>whoami.alexasr.tk/raw/xml/</td>
-        <td>&lt;?xml version="1.0" encoding="UTF-8" ?&gt;&lt;root&gt;&lt;item type="list"&gt;&lt;item type="str"&gt;X-Real-Ip&lt;/item&gt;&lt;item type="str"&gt;10.0.0.6&lt;/item&gt;&lt;/item&gt;&lt;item type="list"&gt;&lt;item type="str"&gt;X-Real-Port&lt;/item&gt;&lt;item type="str"&gt;42215&lt;/item&gt;&lt;/item&gt;&lt;item type="list"&gt;&lt;item type="str"&gt;User-Agent&lt;/item&gt;&lt;item type="str"&gt;curl/7.47.0&lt;/item&gt;&lt;/item&gt;&lt;item type="list"&gt;&lt;item type="str"&gt;Connection&lt;/item&gt;&lt;item type="str"&gt;close&lt;/item&gt;&lt;/item&gt;&lt;item type="list"&gt;&lt;item type="str"&gt;X-Forwarded-Port&lt;/item&gt;&lt;item type="str"&gt;80&lt;/item&gt;&lt;/item&gt;&lt;item type="list"&gt;&lt;item type="str"&gt;Accept&lt;/item&gt;&lt;item type="str"&gt;*/*&lt;/item&gt;&lt;/item&gt;&lt;item type="list"&gt;&lt;item type="str"&gt;X-Forwarded-For&lt;/item&gt;&lt;item type="str"&gt;176.166.160.58, 10.0.0.6&lt;/item&gt;&lt;/item&gt;&lt;item type="list"&gt;&lt;item type="str"&gt;X-Forwarded-Proto&lt;/item&gt;&lt;item type="str"&gt;http&lt;/item&gt;&lt;/item&gt;&lt;item type="list"&gt;&lt;item type="str"&gt;X-Forwarded-Ssl&lt;/item&gt;&lt;item type="str"&gt;off&lt;/item&gt;&lt;/item&gt;&lt;item type="list"&gt;&lt;item type="str"&gt;Host&lt;/item&gt;&lt;item type="str"&gt;whoami.alexasr.tk&lt;/item&gt;&lt;/item&gt;&lt;/root&gt;</td>
+        <td>{{ xml }}</td>
       </tr>
     </tbody>
   </table>

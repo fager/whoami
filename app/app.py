@@ -24,11 +24,15 @@ app.config['DEBUG'] = True
 def main():
     ip = get_ip(parse_http_headers(request), request.remote_addr)
     port = request.environ.get('REMOTE_PORT')
+    json = set_headers_format("json", request)
+    xml = set_headers_format("xml", request)
     return render_template('index.html', 
         ip = ip, 
         port = port,
         reverse = get_client_reverse_lookup(ip), 
-        parent_dict = parse_http_headers(request)
+        parent_dict = parse_http_headers(request),
+        json = json,
+        xml = xml
     )
 
 @app.route('/hello/')
