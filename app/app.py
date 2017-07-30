@@ -18,6 +18,7 @@ import pygeoip                  # IP location infos
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
+app.config['SERVER_NAME'] = "127.0.0.1:5000"
 
 # Main page
 @app.route("/index/", methods=['GET'])
@@ -48,7 +49,8 @@ def main():
         iplocation = iplocation,
         parent_dict = headers,
         json = json,
-        xml = xml
+        xml = xml,
+        servername = app.config['SERVER_NAME']
     )
 
 # Return IP address of visitor
