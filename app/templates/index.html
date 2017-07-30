@@ -9,6 +9,15 @@
       <h2>Info from your browser</h2>
       {% include "main.html" %}
     </div>
+
+    <div class="container">
+      <h2>MapBox</h2>
+      <p>Longitude = {{ longitude }}</p>
+      <p>Latitude = {{ latitude }}</p>
+      {% include "map.html" %}
+    </div>
+
+
     <div class="container">
     <h2>Site map</h2>    
       {% include "second.html" %}
