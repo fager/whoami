@@ -1,0 +1,51 @@
+  <div class="table-responsive">
+  <table class="table table-hover table-striped table-bordered">
+    <tbody>
+      <tr>
+        <td><a href={{ url_for('main') }}>whoami.alexasr.tk/</a></td>
+        <td>This page</td>
+      </tr>
+      <tr>
+        <td><a href={{ url_for('main') }}>whoami.alexasr.tk/index/</a></td>
+        <td>Also this page</td>
+      </tr>
+      <tr>
+        <td><a href={{ url_for('ip') }}>whoami.alexasr.tk/ip/</a></td>
+        <td>{{ ip }}</td>
+      </tr>
+      <tr>
+        <td><a href={{ url_for('port') }}>whoami.alexasr.tk/port/</a></td>
+        <td>{{ port }}</td>
+      </tr>
+      <tr>
+        <td><a href={{ url_for('reverse') }}>whoami.alexasr.tk/reverse/</td>
+        <td>{{ reverse }}</td>
+      </tr>
+      <tr>
+        <td><a href={{ url_for('iplocation') }}>whoami.alexasr.tk/iplocation/</td>
+        <td>{% include "iplocation.html" %}</td>
+      </tr>
+        {% for key, value in parent_dict.items() %}
+          {% if key == "User-Agent" %}
+            <tr>
+              <td><a href={{ url_for('ua') }}>whoami.alexasr.tk/ua/</a></td>
+              <td>{{ value }}</td>
+            </tr>
+          {% elif key == "Accept-Language" %}
+            <tr>
+              <td><a href={{ url_for('lang') }}>whoami.alexasr.tk/lang/</a></td>
+              <td>{{ value }}</td>
+            </tr>      
+          {% endif %}  
+        {% endfor %}
+      <tr>
+        <td><a href={{ url_for('raw', type="json") }}>whoami.alexasr.tk/raw/json/</a></td>
+        <td>{{ json }}</td>
+      </tr>
+      <tr>
+        <td><a href={{ url_for('raw', type="xml") }}>whoami.alexasr.tk/raw/xml/</a></td>
+        <td>{{ xml }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
