@@ -16,14 +16,14 @@
 
     {# If the coordonates are not defined, no need to display the map #}
     {% if iplocation["longitude"] is defined and iplocation["latitude"] is defined %}
-      <div class="container">
+      <div class="container space-div">
           <h2>Where you are</h2>
           {% include "map.html" %}
       </div>
     {% endif %}
 
 
-    <div class="container">
+    <div class="container space-div">
     <h2>Site map</h2>    
       {% include "second.html" %}
   </div>
