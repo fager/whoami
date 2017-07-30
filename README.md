@@ -1,10 +1,11 @@
 Who am I ?
 ==================
 
-A Flask web app that display sample information from the visitor (IP, location, browser HTTP headers ...): whoami.
+A Flask web app that display sample information from the visitor (IP, location, browser HTTP headers ...): **whoami**.
 
-.. whoami: http://whoami.alexasr.tk
+.. **whoami**: whoami.alexasr.tk
 
+This app is strongly inspired by **ifconfig.me**
 
 Use it now
 ----------
@@ -47,7 +48,7 @@ $ FLASK_APP=app/app.py python3 -m flask run --host=0.0.0.0 --port=6000
 ```
 
 ### Docker
-whoami can easily be dockerized and is shipped with a ``Dockerfile``.
+**whoami** can easily be dockerized and is shipped with a ``Dockerfile``.
 
 By default, the container will expose port 5000, so change this within the ``Dockerfile`` if necessary. When ready, simply use the ``Dockerfile`` to build the image.
 
@@ -66,7 +67,7 @@ docker run -d -p 80:5000 --restart="always" --name whoami whoami
 Now point your browser at http://127.0.0.1/ 
 
 ### Docker Compose
-whoami is also docker-compose ready, and is shipped with a ``docker-compose.yml`` and an Nginx Dockerfile. Nginx will reverse-proxyfiying requests to the Flask container on port :5000
+**whoami** is also docker-compose ready, and is shipped with a ``docker-compose.yml`` and an Nginx Dockerfile. Nginx will reverse-proxyfiying requests to the Flask container on port :5000
 
 Modify the ``docker-compose.yml`` if needed and run:
 
