@@ -18,7 +18,6 @@ import pygeoip                  # IP location infos
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
-app.config['SERVER_NAME'] = "127.0.0.1:5000"
 
 # Main page
 @app.route("/index/", methods=['GET'])
